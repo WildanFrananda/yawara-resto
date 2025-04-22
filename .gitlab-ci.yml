@@ -1,0 +1,33 @@
+# .gitlab-ci.yml
+image: ghcr.io/cirruslabs/flutter:stable
+
+stages:
+  - lint
+  - test
+  - build
+
+variables:
+  FLUTTER_CHANNEL: stable
+  BASE_URL:        "$BASE_URL"   # CI Variables
+  WS_URL:          "$WS_URL"
+
+before_script:
+  - flutter channel $FLUTTER_CHANNEL
+  - flutter upgrade
+  - flutter pub get
+
+lint:
+  stage: lint
+  script:
+    - flutter analyze
+
+test:
+  stage: test
+  script:
+    - flutter test --coverage
+
+build:
+  stage: build
+  script:
+    - flutter build apk --flavor dev  --dart-define=BASE_URL=$BASE_URL --dart-define=WS_URL=$WS_URL
+    - flutter build apk --flavor prod --dart-define=BASE_URL=$BASE_URL --dart-define=WS_URL=$WS_URL

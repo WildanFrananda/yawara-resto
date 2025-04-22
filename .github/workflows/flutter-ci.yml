@@ -1,0 +1,44 @@
+# .github/workflows/flutter-ci.yml
+name: Flutter CI
+
+on:
+  push:    { branches: [dev, main] }
+  pull_request: { branches: [dev, main] }
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with: { flutter-version: '3.7.0' }
+      - uses: actions/cache@v3
+        with:
+          path: ~/.pub-cache
+          key: ${{ runner.os }}-pub-${{ hashFiles('**/pubspec.yaml') }}
+
+  lint:
+    needs: setup
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: flutter analyze
+
+  test:
+    needs: lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: flutter test --coverage
+
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+    env:
+      BASE_URL:      ${{ secrets.BASE_URL }}
+      WS_URL:        ${{ secrets.WS_URL }}
+      KEYSTORE_PASS: ${{ secrets.KEYSTORE_PASS }}
+    steps:
+      - uses: actions/checkout@v4
+      - run: flutter build apk --flavor dev --dart-define=BASE_URL=$BASE_URL --dart-define=WS_URL=$WS_URL
+      - run: flutter build apk --flavor prod --dart-define=BASE_URL=$BASE_URL --dart-define=WS_URL=$WS_URL
