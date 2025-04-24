@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PrefsKeys {
@@ -10,23 +11,25 @@ class PrefsKeys {
   static const String themeMode = 'theme_mode';
 }
 
+@injectable
 class LocalPrefs {
   final SharedPreferences _prefs;
 
-  LocalPrefs._(this._prefs);
+  const LocalPrefs(this._prefs);
 
   static Future<LocalPrefs> init() async {
     final prefs = await SharedPreferences.getInstance();
 
-    return LocalPrefs._(prefs);
+    return LocalPrefs(prefs);
   }
 
   String? get authToken => _prefs.getString(PrefsKeys.authToken);
-  set authToken(final String? value) {
+
+  Future<void> setAuthToken(final String? value) async {
     if (value == null) {
-      unawaited(_prefs.remove(PrefsKeys.authToken));
+      await _prefs.remove(PrefsKeys.authToken);
     } else {
-      unawaited(_prefs.setString(PrefsKeys.authToken, value));
+      await _prefs.setString(PrefsKeys.authToken, value);
     }
   }
 }

@@ -20,9 +20,10 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  late final AuthViewModel auth;
+
   final _emailCtl = TextEditingController();
   final _passwordCtl = TextEditingController();
-  late final AuthViewModel auth;
 
   @override
   void initState() {
@@ -58,6 +59,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         final scaffold = ScaffoldMessenger.of(context);
                         final router =
                             Router.of(context).routerDelegate as AppRouterDelegate;
+
                         try {
                           await auth.login(_emailCtl.text, _passwordCtl.text);
                           await router.setNewRoutePath(const AppRouteRegister());
@@ -70,6 +72,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 TextButton(
                   onPressed: () async {
                     final router = Router.of(context).routerDelegate as AppRouterDelegate;
+
                     await router.setNewRoutePath(const AppRouteRegister());
                   },
                   child: const Text('Register'),
@@ -86,5 +89,12 @@ class _LoginScreenState extends State<LoginScreen> {
   void debugFillProperties(final DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
     properties.add(DiagnosticsProperty<AuthViewModel>('auth', auth));
+  }
+
+  @override
+  void dispose() {
+    _emailCtl.dispose();
+    _passwordCtl.dispose();
+    super.dispose();
   }
 }

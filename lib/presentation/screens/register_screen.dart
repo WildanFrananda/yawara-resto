@@ -20,10 +20,11 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
+  late final AuthViewModel auth;
+
   final _nameCtl = TextEditingController();
   final _emailCtl = TextEditingController();
   final _passCtl = TextEditingController();
-  late final AuthViewModel auth;
 
   @override
   void initState() {
@@ -63,6 +64,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         final scaffold = ScaffoldMessenger.of(context);
                         final router =
                             Router.of(context).routerDelegate as AppRouterDelegate;
+
                         try {
                           await auth.register(
                             _nameCtl.text,
@@ -91,5 +93,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
   void debugFillProperties(final DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
     properties.add(DiagnosticsProperty<AuthViewModel>('auth', auth));
+  }
+
+  @override
+  void dispose() {
+    _nameCtl.dispose();
+    _emailCtl.dispose();
+    _passCtl.dispose();
+    super.dispose();
   }
 }

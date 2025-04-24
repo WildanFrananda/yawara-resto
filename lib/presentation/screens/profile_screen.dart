@@ -2,18 +2,48 @@
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile/data/model/user/user.dart';
 import 'package:mobile/presentation/viewmodels/auth/auth_view_model.dart';
+import 'package:mobile/presentation/widgets/shared/resto_app_bar.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
   final AuthViewModel authViewModel;
 
   const ProfileScreen({super.key, required this.authViewModel});
 
   @override
-  Widget build(final BuildContext context) {
-    final auth = authViewModel;
-    final user = auth.user;
+  State<ProfileScreen> createState() => _ProfileScreenState();
 
+  @override
+  void debugFillProperties(final DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(DiagnosticsProperty<AuthViewModel>('authViewModel', authViewModel));
+  }
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
+  late final AuthViewModel auth;
+  late final User? user;
+
+  late final TextEditingController _nameCtl;
+  late final TextEditingController _emailCtl;
+  late final TextEditingController _phoneCtl;
+  late final TextEditingController _addressCtl;
+
+  @override
+  void initState() {
+    super.initState();
+    auth = widget.authViewModel;
+    user = auth.user;
+
+    _nameCtl = TextEditingController(text: user?.name ?? '');
+    _emailCtl = TextEditingController(text: user?.email ?? '');
+    _phoneCtl = TextEditingController(text: user?.phone ?? '');
+    _addressCtl = TextEditingController(text: user?.address ?? '');
+  }
+
+  @override
+  Widget build(final BuildContext context) {
     if (user == null) {
       return FutureBuilder(
         future: auth.fetchProfile(),
@@ -22,20 +52,17 @@ class ProfileScreen extends StatelessWidget {
             if (snapshot.hasError) {
               return Center(child: Text('Error: ${snapshot.error}'));
             }
+
             return const SizedBox.shrink();
           }
+
           return const Scaffold(body: Center(child: CircularProgressIndicator()));
         },
       );
     }
 
-    final nameCtl = TextEditingController(text: user.name);
-    final emailCtl = TextEditingController(text: user.email);
-    final phoneCtl = TextEditingController(text: user.phone ?? '');
-    final addressCtl = TextEditingController(text: user.address ?? '');
-
     return Scaffold(
-      appBar: AppBar(title: const Text('Profile')),
+      appBar: const RestoAppBar(title: 'Profile'),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: ListenableBuilder(
@@ -43,35 +70,31 @@ class ProfileScreen extends StatelessWidget {
           builder: (final BuildContext context, final Widget? child) {
             return Column(
               children: [
-                if (user.avatarUrl != null) Image.network(user.avatarUrl!),
-                TextField(
-                  controller: nameCtl,
-                  decoration: const InputDecoration(labelText: 'Name'),
-                ),
-                TextField(
-                  controller: emailCtl,
-                  decoration: const InputDecoration(labelText: 'Email'),
-                ),
-                TextField(
-                  controller: phoneCtl,
-                  decoration: const InputDecoration(labelText: 'Phone'),
-                ),
-                TextField(
-                  controller: addressCtl,
-                  decoration: const InputDecoration(labelText: 'Address'),
-                ),
+                if (user?.avatarUrl != null) Image.network(user!.avatarUrl!),
+                ...[
+                  {'label': 'Name', 'controller': _nameCtl},
+                  {'label': 'Email', 'controller': _emailCtl},
+                  {'label': 'Phone', 'controller': _phoneCtl},
+                  {'label': 'Address', 'controller': _addressCtl},
+                ].map((final field) {
+                  return TextField(
+                    controller: field['controller'] as TextEditingController,
+                    decoration: InputDecoration(labelText: field['label'] as String),
+                  );
+                }),
                 const SizedBox(height: 16),
                 auth.loading
                     ? const CircularProgressIndicator()
                     : ElevatedButton(
                       onPressed: () async {
                         final scaffold = ScaffoldMessenger.of(context);
+
                         try {
                           await auth.updateProfile(
-                            name: nameCtl.text,
-                            email: emailCtl.text,
-                            phone: phoneCtl.text,
-                            address: addressCtl.text,
+                            name: _nameCtl.text,
+                            email: _emailCtl.text,
+                            phone: _phoneCtl.text,
+                            address: _addressCtl.text,
                           );
                           scaffold.showSnackBar(
                             const SnackBar(content: Text('Profile updated successfully')),
@@ -93,6 +116,17 @@ class ProfileScreen extends StatelessWidget {
   @override
   void debugFillProperties(final DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
-    properties.add(DiagnosticsProperty<AuthViewModel>('authViewModel', authViewModel));
+    properties
+      ..add(DiagnosticsProperty<AuthViewModel>('auth', auth))
+      ..add(DiagnosticsProperty('user', user));
+  }
+
+  @override
+  void dispose() {
+    _nameCtl.dispose();
+    _emailCtl.dispose();
+    _phoneCtl.dispose();
+    _addressCtl.dispose();
+    super.dispose();
   }
 }
