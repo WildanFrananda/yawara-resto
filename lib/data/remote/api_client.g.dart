@@ -76,6 +76,37 @@ class _ApiClient implements ApiClient {
   }
 
   @override
+  Future<HttpResponse<LoginResponse>> refresh(
+    Map<String, String> request,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(request);
+    final _options = _setStreamType<HttpResponse<LoginResponse>>(
+      Options(method: 'POST', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            'auth/refresh',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late LoginResponse _value;
+    try {
+      _value = LoginResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    final httpResponse = HttpResponse(_value, _result);
+    return httpResponse;
+  }
+
+  @override
   Future<User> getProfile() async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
@@ -106,27 +137,34 @@ class _ApiClient implements ApiClient {
   Future<HttpResponse<User>> updateProfile(
     String name,
     String email,
-    String phone,
-    String address,
-    File avatar,
+    String? phone,
+    String? address,
+    File? avatar,
   ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     final _data = FormData();
     _data.fields.add(MapEntry('name', name));
     _data.fields.add(MapEntry('email', email));
-    _data.fields.add(MapEntry('phone', phone));
-    _data.fields.add(MapEntry('address', address));
-    _data.files.add(
-      MapEntry(
-        'avatar',
-        MultipartFile.fromFileSync(
-          avatar.path,
-          filename: avatar.path.split(Platform.pathSeparator).last,
+    if (phone != null) {
+      _data.fields.add(MapEntry('phone', phone));
+    }
+    if (address != null) {
+      _data.fields.add(MapEntry('address', address));
+    }
+    if (avatar != null) {
+      _data.files.add(
+        MapEntry(
+          'avatar',
+          MultipartFile.fromFileSync(
+            avatar.path,
+            filename: avatar.path.split(Platform.pathSeparator).last,
+          ),
         ),
-      ),
-    );
+      );
+    }
     final _options = _setStreamType<HttpResponse<User>>(
       Options(
             method: 'PUT',

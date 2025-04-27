@@ -29,4 +29,8 @@ class SecureStorageService {
 
     return _encrypter.decrypt64(encrypted, iv: _iv);
   }
+
+  Future<void> deleteSecure({required final String key}) async {
+    await _secureStorage.delete(key: key);
+  }
 }

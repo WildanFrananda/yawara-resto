@@ -5,30 +5,26 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mobile/data/local/secure_storage_service.dart';
-import 'package:mobile/data/model/login/login_request.dart';
-import 'package:mobile/data/model/register/register_request.dart';
 import 'package:mobile/data/model/user/user.dart';
-import 'package:mobile/data/remote/api_client.dart';
+import 'package:mobile/domain/service/auth_service.dart';
 
 @injectable
 class AuthViewModel extends ChangeNotifier {
-  final ApiClient _apiClient;
+  final AuthService _authService;
   final SecureStorageService _secureStorage;
   final ImagePicker _imagePicker;
 
   User? user;
   bool loading = false;
 
-  AuthViewModel(this._apiClient, this._secureStorage, this._imagePicker);
+  AuthViewModel(this._authService, this._secureStorage, this._imagePicker);
 
   Future<void> login(final String email, final String password) async {
     loading = true;
     notifyListeners();
 
     try {
-      final response = await _apiClient.login(
-        LoginRequest(email: email, password: password),
-      );
+      final response = await _authService.login(email, password);
       await _secureStorage.saveSecure(
         key: 'accessToken',
         value: response.data.accessToken,
@@ -55,9 +51,7 @@ class AuthViewModel extends ChangeNotifier {
     notifyListeners();
 
     try {
-      await _apiClient.register(
-        RegisterRequest(name: name, email: email, password: password),
-      );
+      await _authService.register(name, email, password);
     } on DioException catch (e) {
       throw FormatException(
         (e.response?.data['message'] as String?) ?? 'Registration failed',
@@ -73,7 +67,7 @@ class AuthViewModel extends ChangeNotifier {
     notifyListeners();
 
     try {
-      user = await _apiClient.getProfile();
+      user = await _authService.getProfile();
     } on DioException catch (e) {
       throw FormatException(
         (e.response?.data['message'] as String?) ?? 'Failed to fetch user',
@@ -96,7 +90,13 @@ class AuthViewModel extends ChangeNotifier {
     try {
       final XFile? picked = await _imagePicker.pickImage(source: ImageSource.gallery);
       final File file = File(picked!.path);
-      final response = await _apiClient.updateProfile(name, email, phone, address, file);
+      final response = await _authService.updateProfile(
+        name,
+        email,
+        phone,
+        address,
+        file,
+      );
       user = response.data;
     } on DioException catch (e) {
       throw FormatException(

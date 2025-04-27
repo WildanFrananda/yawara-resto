@@ -18,22 +18,26 @@ abstract interface class ApiClient {
     return _ApiClient(https, baseUrl: baseUrl);
   }
 
+  /// auth endpoints
   @POST('/auth/register')
   Future<HttpResponse<RegisterResponse>> register(@Body() final RegisterRequest request);
 
   @POST('auth/login')
   Future<HttpResponse<LoginResponse>> login(@Body() final LoginRequest request);
 
+  @POST('auth/refresh')
+  Future<HttpResponse<LoginResponse>> refresh(@Body() final Map<String, String> request);
+
   @GET('/user/profile')
   Future<User> getProfile();
 
-  @MultiPart()
   @PUT('/user/profile')
+  @MultiPart()
   Future<HttpResponse<User>> updateProfile(
     @Part(name: 'name') final String name,
     @Part(name: 'email') final String email,
-    @Part(name: 'phone') final String phone,
-    @Part(name: 'address') final String address,
-    @Part(name: 'avatar') final File avatar,
+    @Part(name: 'phone') final String? phone,
+    @Part(name: 'address') final String? address,
+    @Part(name: 'avatar') final File? avatar,
   );
 }

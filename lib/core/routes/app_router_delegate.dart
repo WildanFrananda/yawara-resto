@@ -7,7 +7,7 @@ import 'package:mobile/presentation/screens/register_screen.dart';
 import 'package:mobile/presentation/viewmodels/auth/auth_view_model.dart';
 
 class AppRouterDelegate extends RouterDelegate<AppRoute>
-    with ChangeNotifier, PopNavigatorRouterDelegateMixin {
+    with ChangeNotifier, PopNavigatorRouterDelegateMixin<AppRoute> {
   @override
   final GlobalKey<NavigatorState> navigatorKey;
   AppRoute _route = const AppRouteLogin();
@@ -18,7 +18,7 @@ class AppRouterDelegate extends RouterDelegate<AppRoute>
   AppRoute get currentConfiguration => _route;
 
   @override
-  Widget build(final BuildContext context) {
+  Navigator build(final BuildContext context) {
     return Navigator(
       key: navigatorKey,
       pages: [

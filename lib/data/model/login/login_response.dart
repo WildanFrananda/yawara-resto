@@ -9,7 +9,9 @@ abstract class LoginResponse with _$LoginResponse {
   const factory LoginResponse({
     required final String accessToken,
     required final String refreshToken,
-    required final User user,
+    required final String tokenType,
+    required final String expiresIn,
+    required final User? user,
   }) = _LoginResponse;
 
   factory LoginResponse.fromJson(final Map<String, dynamic> json) =>

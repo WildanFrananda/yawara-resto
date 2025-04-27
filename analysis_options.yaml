@@ -23,6 +23,7 @@ analyzer:
     invalid_use_of_visible_for_testing_member: error
     avoid_dynamic_calls: ignore
     prefer_if_elements_to_conditional_expressions: ignore
+    unnecessary_new: ignore
   exclude:
     - "lib/generated_plugin_registrant.dart"
     - "**/*.g.dart"
