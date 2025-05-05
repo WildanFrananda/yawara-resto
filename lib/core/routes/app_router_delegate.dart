@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobile/core/routes/app_route.dart';
+import 'package:mobile/presentation/screens/home_screen.dart';
 import 'package:mobile/presentation/screens/login_screen.dart';
 import 'package:mobile/presentation/screens/profile_screen.dart';
 import 'package:mobile/presentation/screens/register_screen.dart';
 import 'package:mobile/presentation/viewmodels/auth/auth_view_model.dart';
+import 'package:mobile/presentation/viewmodels/home/home_view_model.dart';
 
 class AppRouterDelegate extends RouterDelegate<AppRoute>
     with ChangeNotifier, PopNavigatorRouterDelegateMixin<AppRoute> {
@@ -26,6 +28,8 @@ class AppRouterDelegate extends RouterDelegate<AppRoute>
           MaterialPage(child: LoginScreen(authViewModel: GetIt.I<AuthViewModel>())),
         if (_route is AppRouteRegister)
           MaterialPage(child: RegisterScreen(authViewModel: GetIt.I<AuthViewModel>())),
+        if (_route is AppRouteHome)
+          MaterialPage(child: HomeScreen(viewModel: GetIt.I<HomeViewModel>())),
         if (_route is AppRouteProfile)
           MaterialPage(child: ProfileScreen(authViewModel: GetIt.I<AuthViewModel>())),
       ],

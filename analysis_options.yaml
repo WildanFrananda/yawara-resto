@@ -24,6 +24,7 @@ analyzer:
     avoid_dynamic_calls: ignore
     prefer_if_elements_to_conditional_expressions: ignore
     unnecessary_new: ignore
+    prefer_final_in_for_each: ignore
   exclude:
     - "lib/generated_plugin_registrant.dart"
     - "**/*.g.dart"

@@ -3,14 +3,16 @@ import 'package:injectable/injectable.dart';
 
 @injectable
 class ConnectivityService {
-  final connectivity = Connectivity();
+  final Connectivity _connectivity;
+
+  ConnectivityService(this._connectivity);
 
   Future<bool> isConnected() async {
-    final List<ConnectivityResult> results = await connectivity.checkConnectivity();
+    final List<ConnectivityResult> results = await _connectivity.checkConnectivity();
 
     return results.any((final result) => result != ConnectivityResult.none);
   }
 
   Stream<List<ConnectivityResult>> get connectivityStream =>
-      connectivity.onConnectivityChanged;
+      _connectivity.onConnectivityChanged;
 }

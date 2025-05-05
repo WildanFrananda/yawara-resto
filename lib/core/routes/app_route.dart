@@ -22,6 +22,10 @@ class AppRouteRegister extends AppRoute {
   const AppRouteRegister();
 }
 
+class AppRouteHome extends AppRoute {
+  const AppRouteHome();
+}
+
 class AppRouteProfile extends AppRoute {
   const AppRouteProfile();
 }

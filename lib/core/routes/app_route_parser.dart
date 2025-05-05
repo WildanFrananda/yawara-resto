@@ -15,6 +15,9 @@ class AppRouteParser extends RouteInformationParser<AppRoute> {
     if (configuration is AppRouteRegister) {
       return RouteInformation(uri: Uri.parse('/register'));
     }
+    if (configuration is AppRouteHome) {
+      return RouteInformation(uri: Uri.parse('/home'));
+    }
     if (configuration is AppRouteProfile) {
       return RouteInformation(uri: Uri.parse('/profile'));
     }

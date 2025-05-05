@@ -9,6 +9,7 @@
 // coverage:ignore-file
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
+import 'package:connectivity_plus/connectivity_plus.dart' as _i895;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart' as _i558;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:image_picker/image_picker.dart' as _i183;
@@ -18,6 +19,7 @@ import 'package:shared_preferences/shared_preferences.dart' as _i460;
 import '../data/local/local_prefs.dart' as _i405;
 import '../data/local/secure_storage_service.dart' as _i474;
 import '../data/remote/api_client.dart' as _i117;
+import '../data/remote/booking_api_client.dart' as _i452;
 import '../data/remote/https_client.dart' as _i146;
 import '../data/repositories/token_repository.dart' as _i1050;
 import '../data/repositories/user_repository.dart' as _i977;
@@ -37,7 +39,6 @@ extension GetItInjectableX on _i174.GetIt {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
     final registerModule = _$RegisterModule();
     gh.factory<_i890.PushNotification>(() => _i890.PushNotification());
-    gh.factory<_i910.ConnectivityService>(() => _i910.ConnectivityService());
     gh.factory<_i474.SecureStorageService>(() => _i474.SecureStorageService());
     await gh.factoryAsync<_i460.SharedPreferences>(
       () => registerModule.prefs,
@@ -47,6 +48,7 @@ extension GetItInjectableX on _i174.GetIt {
       () => registerModule.secureStorage,
     );
     gh.lazySingleton<_i183.ImagePicker>(() => registerModule.imagePicker);
+    gh.lazySingleton<_i895.Connectivity>(() => registerModule.connectivity);
     gh.factory<_i405.LocalPrefs>(
       () => _i405.LocalPrefs(gh<_i460.SharedPreferences>()),
     );
@@ -58,21 +60,27 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i146.HttpsClient>(
       () => _i146.HttpsClient(gh<_i1050.TokenRepository>()),
     );
+    gh.factory<_i910.ConnectivityService>(
+      () => _i910.ConnectivityService(gh<_i895.Connectivity>()),
+    );
     gh.lazySingleton<_i117.ApiClient>(
       () => registerModule.apiClient(gh<_i146.HttpsClient>()),
     );
-    gh.factory<_i521.AuthViewModel>(
-      () => _i521.AuthViewModel(
-        gh<_i117.ApiClient>(),
-        gh<_i474.SecureStorageService>(),
-        gh<_i183.ImagePicker>(),
-      ),
+    gh.lazySingleton<_i452.BookingApiClient>(
+      () => registerModule.bookingApiClient(gh<_i146.HttpsClient>()),
     );
     gh.factory<_i544.UserRepository>(
       () => _i977.UserRepositoryImpl(gh<_i117.ApiClient>()),
     );
     gh.lazySingleton<_i293.AuthService>(
       () => _i293.AuthService(gh<_i117.ApiClient>(), gh<_i146.HttpsClient>()),
+    );
+    gh.factory<_i521.AuthViewModel>(
+      () => _i521.AuthViewModel(
+        gh<_i293.AuthService>(),
+        gh<_i474.SecureStorageService>(),
+        gh<_i183.ImagePicker>(),
+      ),
     );
     return this;
   }
