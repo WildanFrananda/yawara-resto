@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile/core/utils/menu_cache_manager.dart';
 import 'package:mobile/data/model/booking/menu_item_request.dart';
 import 'package:mobile/presentation/viewmodels/home/home_view_model.dart';
 import 'package:mobile/presentation/widgets/shared/resto_app_bar.dart';
@@ -38,6 +39,7 @@ class HomeScreen extends StatelessWidget {
                                 imageUrl: menu.imageUrl,
                                 width: 50,
                                 height: 50,
+                                cacheManager: MenuCacheManager(),
                               ),
                               title: Text(menu.name),
                               subtitle: Text(menu.price.toString()),

@@ -7,6 +7,8 @@ import 'package:mobile/data/model/login/login_response.dart';
 import 'package:mobile/data/model/register/register_request.dart';
 import 'package:mobile/data/model/register/register_response.dart';
 import 'package:mobile/data/model/user/user.dart';
+import 'package:mobile/data/remote/history/paginated_history.dart';
+import 'package:mobile/data/remote/user/user_detail_response.dart';
 import 'package:retrofit/retrofit.dart';
 
 part 'api_client.g.dart';
@@ -40,4 +42,10 @@ abstract interface class ApiClient {
     @Part(name: 'address') final String? address,
     @Part(name: 'avatar') final File? avatar,
   );
+
+  @GET('/booking')
+  Future<PaginatedHistory> fetchHistory();
+
+  @GET('/user/profile')
+  Future<UserDetailResponse> fetchUserProfile();
 }

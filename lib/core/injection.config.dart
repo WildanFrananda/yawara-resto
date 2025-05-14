@@ -21,12 +21,15 @@ import '../data/local/secure_storage_service.dart' as _i474;
 import '../data/remote/api_client.dart' as _i117;
 import '../data/remote/booking_api_client.dart' as _i452;
 import '../data/remote/https_client.dart' as _i146;
+import '../data/remote/menu/menu_api_client.dart' as _i379;
 import '../data/repositories/token_repository.dart' as _i1050;
 import '../data/repositories/user_repository.dart' as _i977;
 import '../domain/repositories/user_repository.dart' as _i544;
 import '../domain/service/auth_service.dart' as _i293;
 import '../presentation/viewmodels/auth/auth_view_model.dart' as _i521;
 import 'module.dart' as _i946;
+import 'routes/app_route_parser.dart' as _i962;
+import 'routes/app_router_delegate.dart' as _i1003;
 import 'utils/connectivity_service.dart' as _i910;
 import 'utils/push_notification.dart' as _i890;
 
@@ -38,12 +41,14 @@ extension GetItInjectableX on _i174.GetIt {
   }) async {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
     final registerModule = _$RegisterModule();
-    gh.factory<_i890.PushNotification>(() => _i890.PushNotification());
-    gh.factory<_i474.SecureStorageService>(() => _i474.SecureStorageService());
     await gh.factoryAsync<_i460.SharedPreferences>(
       () => registerModule.prefs,
       preResolve: true,
     );
+    gh.factory<_i890.PushNotification>(() => _i890.PushNotification());
+    gh.factory<_i474.SecureStorageService>(() => _i474.SecureStorageService());
+    gh.singleton<_i962.AppRouteParser>(() => _i962.AppRouteParser());
+    gh.singleton<_i1003.AppRouterDelegate>(() => _i1003.AppRouterDelegate());
     gh.lazySingleton<_i558.FlutterSecureStorage>(
       () => registerModule.secureStorage,
     );
@@ -68,6 +73,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i452.BookingApiClient>(
       () => registerModule.bookingApiClient(gh<_i146.HttpsClient>()),
+    );
+    gh.lazySingleton<_i379.MenuApiClient>(
+      () => registerModule.menuApiClient(gh<_i146.HttpsClient>()),
     );
     gh.factory<_i544.UserRepository>(
       () => _i977.UserRepositoryImpl(gh<_i117.ApiClient>()),

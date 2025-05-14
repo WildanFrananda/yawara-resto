@@ -7,22 +7,24 @@ import 'package:hive_ce_flutter/hive_flutter.dart';
 import 'package:mobile/data/model/booking/booking_request.dart';
 import 'package:mobile/data/model/booking/booking_response.dart';
 import 'package:mobile/data/model/booking/menu_item_request.dart';
-import 'package:mobile/data/model/menu/menu_detail.dart';
+import 'package:mobile/data/model/menu/menu_model.dart';
 import 'package:mobile/data/remote/booking_api_client.dart';
+import 'package:mobile/presentation/viewmodels/offline/offline_view_model.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 class HomeViewModel extends ChangeNotifier {
+  final OfflineViewModel offlineViewModel;
   final BookingApiClient _bookingApiClient;
   final Connectivity _connectivity;
   final Box<dynamic> _menuBox = Hive.box('menus');
 
-  HomeViewModel(this._bookingApiClient, this._connectivity) {
+  HomeViewModel(this._bookingApiClient, this._connectivity, this.offlineViewModel) {
     _listenConnectivity();
     _connectWebSocket();
     fetchMenus();
   }
 
-  List<MenuDetail> menus = [];
+  List<MenuModel> menus = [];
   bool loadingMenus = false;
   String? menuError;
 
@@ -41,7 +43,7 @@ class HomeViewModel extends ChangeNotifier {
     menuError = null;
     notifyListeners();
 
-    final cached = _menuBox.values.cast<MenuDetail>().toList();
+    final cached = _menuBox.values.cast<MenuModel>().toList();
     if (cached.isNotEmpty) {
       menus = cached;
       loadingMenus = false;
@@ -93,6 +95,12 @@ class HomeViewModel extends ChangeNotifier {
       paymentStatus = 'pending';
     } catch (e) {
       bookingError = 'Failed to create booking!';
+      await offlineViewModel.saveDraft(
+        items: items,
+        location: location,
+        schedule: schedule,
+      );
+      notifyListeners();
     } finally {
       bookingLoading = false;
       notifyListeners();

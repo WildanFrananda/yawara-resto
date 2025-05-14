@@ -23,7 +23,7 @@ _BookingResponse _$BookingResponseFromJson(Map<String, dynamic> json) =>
       location: json['location'] as String,
       status: json['status'] as String,
       chefLocation: json['chefLocation'] as String,
-      menu: MenuDetail.fromJson(json['menu'] as Map<String, dynamic>),
+      menu: MenuModel.fromJson(json['menu'] as Map<String, dynamic>),
       totalAmount: (json['totalAmount'] as num).toDouble(),
       createdAt: DateTime.parse(json['createdAt'] as String),
     );

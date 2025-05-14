@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:mobile/data/model/booking/booking_menu.dart';
-import 'package:mobile/data/model/menu/menu_detail.dart';
+import 'package:mobile/data/model/menu/menu_model.dart';
 import 'package:mobile/data/model/transaction/transaction.dart';
 
 part 'booking_response.freezed.dart';
@@ -18,7 +18,7 @@ abstract class BookingResponse with _$BookingResponse {
     required final String location,
     required final String status,
     required final String chefLocation,
-    required final MenuDetail menu,
+    required final MenuModel menu,
     required final double totalAmount,
     required final DateTime createdAt,
   }) = _BookingResponse;

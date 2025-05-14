@@ -1,17 +1,16 @@
+import 'package:mobile/data/model/category/category_model.dart';
+
 sealed class AppRoute {
   const AppRoute();
 
-  static AppRoute fromLocation(final String location) {
-    if (location == '/login') {
-      return const AppRouteLogin();
-    } else if (location == '/register') {
-      return const AppRouteRegister();
-    } else if (location == '/profile') {
-      return const AppRouteProfile();
-    } else {
-      throw Exception('Unknown route: $location');
-    }
-  }
+  factory AppRoute.categories() = AppRouteCategory;
+  factory AppRoute.login() = AppRouteLogin;
+  factory AppRoute.register() = AppRouteRegister;
+  factory AppRoute.profile() = AppRouteProfile;
+  factory AppRoute.home() = AppRouteHome;
+  factory AppRoute.reservation() = AppRouteReservation;
+  factory AppRoute.menuList(final CategoryModel categoryId) = AppRouteMenuList;
+  factory AppRoute.menuDetail(final String menuId) = AppRouteMenuDetail;
 }
 
 class AppRouteLogin extends AppRoute {
@@ -28,4 +27,24 @@ class AppRouteHome extends AppRoute {
 
 class AppRouteProfile extends AppRoute {
   const AppRouteProfile();
+}
+
+class AppRouteReservation extends AppRoute {
+  const AppRouteReservation();
+}
+
+class AppRouteCategory extends AppRoute {
+  const AppRouteCategory();
+}
+
+class AppRouteMenuList extends AppRoute {
+  final CategoryModel categoryId;
+
+  const AppRouteMenuList(this.categoryId);
+}
+
+class AppRouteMenuDetail extends AppRoute {
+  final String menuId;
+
+  const AppRouteMenuDetail(this.menuId);
 }

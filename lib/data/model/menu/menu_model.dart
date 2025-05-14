@@ -1,11 +1,11 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'menu_detail.freezed.dart';
-part 'menu_detail.g.dart';
+part 'menu_model.freezed.dart';
+part 'menu_model.g.dart';
 
 @freezed
-abstract class MenuDetail with _$MenuDetail {
-  factory MenuDetail({
+abstract class MenuModel with _$MenuModel {
+  factory MenuModel({
     required final String id,
     required final String name,
     final String? description,
@@ -14,7 +14,7 @@ abstract class MenuDetail with _$MenuDetail {
     final bool? isTopWeek,
     final String? status,
     required final String imageUrl,
-  }) = _MenuDetail;
-  factory MenuDetail.fromJson(final Map<String, dynamic> json) =>
-      _$MenuDetailFromJson(json);
+  }) = _MenuModel;
+  factory MenuModel.fromJson(final Map<String, dynamic> json) =>
+      _$MenuModelFromJson(json);
 }

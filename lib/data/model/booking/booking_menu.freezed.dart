@@ -16,7 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$BookingMenu {
 
- String get id; String get booking; MenuDetail get menu; int get quantity; double get priceAtBooking;
+ String get id; String get booking; MenuModel get menu; int get quantity; double get priceAtBooking;
 /// Create a copy of BookingMenu
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -49,11 +49,11 @@ abstract mixin class $BookingMenuCopyWith<$Res>  {
   factory $BookingMenuCopyWith(BookingMenu value, $Res Function(BookingMenu) _then) = _$BookingMenuCopyWithImpl;
 @useResult
 $Res call({
- String id, String booking, MenuDetail menu, int quantity, double priceAtBooking
+ String id, String booking, MenuModel menu, int quantity, double priceAtBooking
 });
 
 
-$MenuDetailCopyWith<$Res> get menu;
+$MenuModelCopyWith<$Res> get menu;
 
 }
 /// @nodoc
@@ -71,7 +71,7 @@ class _$BookingMenuCopyWithImpl<$Res>
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,booking: null == booking ? _self.booking : booking // ignore: cast_nullable_to_non_nullable
 as String,menu: null == menu ? _self.menu : menu // ignore: cast_nullable_to_non_nullable
-as MenuDetail,quantity: null == quantity ? _self.quantity : quantity // ignore: cast_nullable_to_non_nullable
+as MenuModel,quantity: null == quantity ? _self.quantity : quantity // ignore: cast_nullable_to_non_nullable
 as int,priceAtBooking: null == priceAtBooking ? _self.priceAtBooking : priceAtBooking // ignore: cast_nullable_to_non_nullable
 as double,
   ));
@@ -80,9 +80,9 @@ as double,
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
-$MenuDetailCopyWith<$Res> get menu {
+$MenuModelCopyWith<$Res> get menu {
   
-  return $MenuDetailCopyWith<$Res>(_self.menu, (value) {
+  return $MenuModelCopyWith<$Res>(_self.menu, (value) {
     return _then(_self.copyWith(menu: value));
   });
 }
@@ -98,7 +98,7 @@ class _BookingMenu implements BookingMenu {
 
 @override final  String id;
 @override final  String booking;
-@override final  MenuDetail menu;
+@override final  MenuModel menu;
 @override final  int quantity;
 @override final  double priceAtBooking;
 
@@ -135,11 +135,11 @@ abstract mixin class _$BookingMenuCopyWith<$Res> implements $BookingMenuCopyWith
   factory _$BookingMenuCopyWith(_BookingMenu value, $Res Function(_BookingMenu) _then) = __$BookingMenuCopyWithImpl;
 @override @useResult
 $Res call({
- String id, String booking, MenuDetail menu, int quantity, double priceAtBooking
+ String id, String booking, MenuModel menu, int quantity, double priceAtBooking
 });
 
 
-@override $MenuDetailCopyWith<$Res> get menu;
+@override $MenuModelCopyWith<$Res> get menu;
 
 }
 /// @nodoc
@@ -157,7 +157,7 @@ class __$BookingMenuCopyWithImpl<$Res>
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,booking: null == booking ? _self.booking : booking // ignore: cast_nullable_to_non_nullable
 as String,menu: null == menu ? _self.menu : menu // ignore: cast_nullable_to_non_nullable
-as MenuDetail,quantity: null == quantity ? _self.quantity : quantity // ignore: cast_nullable_to_non_nullable
+as MenuModel,quantity: null == quantity ? _self.quantity : quantity // ignore: cast_nullable_to_non_nullable
 as int,priceAtBooking: null == priceAtBooking ? _self.priceAtBooking : priceAtBooking // ignore: cast_nullable_to_non_nullable
 as double,
   ));
@@ -167,9 +167,9 @@ as double,
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
-$MenuDetailCopyWith<$Res> get menu {
+$MenuModelCopyWith<$Res> get menu {
   
-  return $MenuDetailCopyWith<$Res>(_self.menu, (value) {
+  return $MenuModelCopyWith<$Res>(_self.menu, (value) {
     return _then(_self.copyWith(menu: value));
   });
 }

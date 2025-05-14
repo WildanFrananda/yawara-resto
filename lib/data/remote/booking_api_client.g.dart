@@ -18,12 +18,12 @@ class _BookingApiClient implements BookingApiClient {
   final ParseErrorLogger? errorLogger;
 
   @override
-  Future<List<MenuDetail>> fetchMenus() async {
+  Future<List<MenuModel>> fetchMenus() async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<List<MenuDetail>>(
+    final _options = _setStreamType<List<MenuModel>>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
@@ -34,13 +34,11 @@ class _BookingApiClient implements BookingApiClient {
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<List<dynamic>>(_options);
-    late List<MenuDetail> _value;
+    late List<MenuModel> _value;
     try {
       _value =
           _result.data!
-              .map(
-                (dynamic i) => MenuDetail.fromJson(i as Map<String, dynamic>),
-              )
+              .map((dynamic i) => MenuModel.fromJson(i as Map<String, dynamic>))
               .toList();
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
@@ -69,6 +67,65 @@ class _BookingApiClient implements BookingApiClient {
     late BookingResponse _value;
     try {
       _value = BookingResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<List<TableModel>> fetchTables() async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<List<TableModel>>(
+      Options(method: 'GET', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/tables',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<List<dynamic>>(_options);
+    late List<TableModel> _value;
+    try {
+      _value =
+          _result.data!
+              .map(
+                (dynamic i) => TableModel.fromJson(i as Map<String, dynamic>),
+              )
+              .toList();
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<ReservationResponse> createReservation(ReservationRequest body) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = body;
+    final _options = _setStreamType<ReservationResponse>(
+      Options(method: 'POST', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/booking',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late ReservationResponse _value;
+    try {
+      _value = ReservationResponse.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;

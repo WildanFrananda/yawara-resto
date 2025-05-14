@@ -1,12 +1,12 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'menu_detail.dart';
+part of 'menu_model.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-_MenuDetail _$MenuDetailFromJson(Map<String, dynamic> json) => _MenuDetail(
+_MenuModel _$MenuModelFromJson(Map<String, dynamic> json) => _MenuModel(
   id: json['id'] as String,
   name: json['name'] as String,
   description: json['description'] as String?,
@@ -17,7 +17,7 @@ _MenuDetail _$MenuDetailFromJson(Map<String, dynamic> json) => _MenuDetail(
   imageUrl: json['imageUrl'] as String,
 );
 
-Map<String, dynamic> _$MenuDetailToJson(_MenuDetail instance) =>
+Map<String, dynamic> _$MenuModelToJson(_MenuModel instance) =>
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,

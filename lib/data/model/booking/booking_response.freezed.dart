@@ -16,7 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$BookingResponse {
 
- String get id; List<Transaction> get transactions; List<BookingMenu> get bookingMenus; String get user; String get type; DateTime get schedule; String get location; String get status; String get chefLocation; MenuDetail get menu; double get totalAmount; DateTime get createdAt;
+ String get id; List<Transaction> get transactions; List<BookingMenu> get bookingMenus; String get user; String get type; DateTime get schedule; String get location; String get status; String get chefLocation; MenuModel get menu; double get totalAmount; DateTime get createdAt;
 /// Create a copy of BookingResponse
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -49,11 +49,11 @@ abstract mixin class $BookingResponseCopyWith<$Res>  {
   factory $BookingResponseCopyWith(BookingResponse value, $Res Function(BookingResponse) _then) = _$BookingResponseCopyWithImpl;
 @useResult
 $Res call({
- String id, List<Transaction> transactions, List<BookingMenu> bookingMenus, String user, String type, DateTime schedule, String location, String status, String chefLocation, MenuDetail menu, double totalAmount, DateTime createdAt
+ String id, List<Transaction> transactions, List<BookingMenu> bookingMenus, String user, String type, DateTime schedule, String location, String status, String chefLocation, MenuModel menu, double totalAmount, DateTime createdAt
 });
 
 
-$MenuDetailCopyWith<$Res> get menu;
+$MenuModelCopyWith<$Res> get menu;
 
 }
 /// @nodoc
@@ -78,7 +78,7 @@ as DateTime,location: null == location ? _self.location : location // ignore: ca
 as String,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
 as String,chefLocation: null == chefLocation ? _self.chefLocation : chefLocation // ignore: cast_nullable_to_non_nullable
 as String,menu: null == menu ? _self.menu : menu // ignore: cast_nullable_to_non_nullable
-as MenuDetail,totalAmount: null == totalAmount ? _self.totalAmount : totalAmount // ignore: cast_nullable_to_non_nullable
+as MenuModel,totalAmount: null == totalAmount ? _self.totalAmount : totalAmount // ignore: cast_nullable_to_non_nullable
 as double,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as DateTime,
   ));
@@ -87,9 +87,9 @@ as DateTime,
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
-$MenuDetailCopyWith<$Res> get menu {
+$MenuModelCopyWith<$Res> get menu {
   
-  return $MenuDetailCopyWith<$Res>(_self.menu, (value) {
+  return $MenuModelCopyWith<$Res>(_self.menu, (value) {
     return _then(_self.copyWith(menu: value));
   });
 }
@@ -124,7 +124,7 @@ class _BookingResponse implements BookingResponse {
 @override final  String location;
 @override final  String status;
 @override final  String chefLocation;
-@override final  MenuDetail menu;
+@override final  MenuModel menu;
 @override final  double totalAmount;
 @override final  DateTime createdAt;
 
@@ -161,11 +161,11 @@ abstract mixin class _$BookingResponseCopyWith<$Res> implements $BookingResponse
   factory _$BookingResponseCopyWith(_BookingResponse value, $Res Function(_BookingResponse) _then) = __$BookingResponseCopyWithImpl;
 @override @useResult
 $Res call({
- String id, List<Transaction> transactions, List<BookingMenu> bookingMenus, String user, String type, DateTime schedule, String location, String status, String chefLocation, MenuDetail menu, double totalAmount, DateTime createdAt
+ String id, List<Transaction> transactions, List<BookingMenu> bookingMenus, String user, String type, DateTime schedule, String location, String status, String chefLocation, MenuModel menu, double totalAmount, DateTime createdAt
 });
 
 
-@override $MenuDetailCopyWith<$Res> get menu;
+@override $MenuModelCopyWith<$Res> get menu;
 
 }
 /// @nodoc
@@ -190,7 +190,7 @@ as DateTime,location: null == location ? _self.location : location // ignore: ca
 as String,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
 as String,chefLocation: null == chefLocation ? _self.chefLocation : chefLocation // ignore: cast_nullable_to_non_nullable
 as String,menu: null == menu ? _self.menu : menu // ignore: cast_nullable_to_non_nullable
-as MenuDetail,totalAmount: null == totalAmount ? _self.totalAmount : totalAmount // ignore: cast_nullable_to_non_nullable
+as MenuModel,totalAmount: null == totalAmount ? _self.totalAmount : totalAmount // ignore: cast_nullable_to_non_nullable
 as double,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as DateTime,
   ));
@@ -200,9 +200,9 @@ as DateTime,
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
-$MenuDetailCopyWith<$Res> get menu {
+$MenuModelCopyWith<$Res> get menu {
   
-  return $MenuDetailCopyWith<$Res>(_self.menu, (value) {
+  return $MenuModelCopyWith<$Res>(_self.menu, (value) {
     return _then(_self.copyWith(menu: value));
   });
 }

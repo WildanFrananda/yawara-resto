@@ -9,7 +9,7 @@ part of 'booking_menu.dart';
 _BookingMenu _$BookingMenuFromJson(Map<String, dynamic> json) => _BookingMenu(
   id: json['id'] as String,
   booking: json['booking'] as String,
-  menu: MenuDetail.fromJson(json['menu'] as Map<String, dynamic>),
+  menu: MenuModel.fromJson(json['menu'] as Map<String, dynamic>),
   quantity: (json['quantity'] as num).toInt(),
   priceAtBooking: (json['priceAtBooking'] as num).toDouble(),
 );
