@@ -1,18 +1,18 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile/core/utils/menu_cache_manager.dart';
 import 'package:mobile/data/model/booking/menu_item_request.dart';
 import 'package:mobile/presentation/viewmodels/home/home_view_model.dart';
 import 'package:mobile/presentation/widgets/shared/resto_app_bar.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {
-  final HomeViewModel viewModel;
-
-  const HomeScreen({super.key, required this.viewModel});
+  const HomeScreen({super.key});
 
   @override
   Widget build(final BuildContext context) {
+    final viewModel = context.watch<HomeViewModel>();
+
     return Scaffold(
       appBar: const RestoAppBar(title: 'Home dine in'),
       body: ListenableBuilder(
@@ -29,7 +29,12 @@ class HomeScreen extends StatelessWidget {
                     viewModel.loadingMenus
                         ? const Center(child: CircularProgressIndicator())
                         : viewModel.menuError != null
-                        ? Center(child: Text(viewModel.menuError!))
+                        ? Center(
+                          child: Text(
+                            viewModel.menuError!,
+                            style: const TextStyle(color: Colors.white),
+                          ),
+                        )
                         : ListView.builder(
                           itemCount: viewModel.menus.length,
                           itemBuilder: (_, final i) {
@@ -61,12 +66,16 @@ class HomeScreen extends StatelessWidget {
                                 viewModel.menus
                                     .take(2)
                                     .map(
-                                      (final e) =>
-                                          MenuItemRequest(menuId: e.id, quantity: 1),
+                                      (final e) => MenuItemRequest(
+                                        menuId: e.id,
+                                        quantity: 1,
+                                      ),
                                     )
                                     .toList(),
                             location: 'Jl. Example No. 123, Jakarta',
-                            schedule: DateTime.now().add(const Duration(hours: 1)),
+                            schedule: DateTime.now().add(
+                              const Duration(hours: 1),
+                            ),
                           );
                           if (viewModel.bookingError != null) {
                             scaffold.showSnackBar(
@@ -92,11 +101,5 @@ class HomeScreen extends StatelessWidget {
         },
       ),
     );
-  }
-
-  @override
-  void debugFillProperties(final DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties.add(DiagnosticsProperty<HomeViewModel>('viewModel', viewModel));
   }
 }

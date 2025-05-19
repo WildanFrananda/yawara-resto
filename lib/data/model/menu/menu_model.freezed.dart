@@ -16,7 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$MenuModel {
 
- String get id; String get name; String? get description; double get price; String? get category; bool? get isTopWeek; String? get status; String get imageUrl;
+ String get id; String get name; String? get description;@JsonKey(fromJson: _priceFromJson) double get price; CategoryModel get category; bool? get isTopWeek; String? get status; String get imageUrl;
 /// Create a copy of MenuModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -49,11 +49,11 @@ abstract mixin class $MenuModelCopyWith<$Res>  {
   factory $MenuModelCopyWith(MenuModel value, $Res Function(MenuModel) _then) = _$MenuModelCopyWithImpl;
 @useResult
 $Res call({
- String id, String name, String? description, double price, String? category, bool? isTopWeek, String? status, String imageUrl
+ String id, String name, String? description,@JsonKey(fromJson: _priceFromJson) double price, CategoryModel category, bool? isTopWeek, String? status, String imageUrl
 });
 
 
-
+$CategoryModelCopyWith<$Res> get category;
 
 }
 /// @nodoc
@@ -66,20 +66,29 @@ class _$MenuModelCopyWithImpl<$Res>
 
 /// Create a copy of MenuModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? name = null,Object? description = freezed,Object? price = null,Object? category = freezed,Object? isTopWeek = freezed,Object? status = freezed,Object? imageUrl = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? name = null,Object? description = freezed,Object? price = null,Object? category = null,Object? isTopWeek = freezed,Object? status = freezed,Object? imageUrl = null,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,description: freezed == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
 as String?,price: null == price ? _self.price : price // ignore: cast_nullable_to_non_nullable
-as double,category: freezed == category ? _self.category : category // ignore: cast_nullable_to_non_nullable
-as String?,isTopWeek: freezed == isTopWeek ? _self.isTopWeek : isTopWeek // ignore: cast_nullable_to_non_nullable
+as double,category: null == category ? _self.category : category // ignore: cast_nullable_to_non_nullable
+as CategoryModel,isTopWeek: freezed == isTopWeek ? _self.isTopWeek : isTopWeek // ignore: cast_nullable_to_non_nullable
 as bool?,status: freezed == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
 as String?,imageUrl: null == imageUrl ? _self.imageUrl : imageUrl // ignore: cast_nullable_to_non_nullable
 as String,
   ));
 }
-
+/// Create a copy of MenuModel
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$CategoryModelCopyWith<$Res> get category {
+  
+  return $CategoryModelCopyWith<$Res>(_self.category, (value) {
+    return _then(_self.copyWith(category: value));
+  });
+}
 }
 
 
@@ -87,14 +96,14 @@ as String,
 @JsonSerializable()
 
 class _MenuModel implements MenuModel {
-   _MenuModel({required this.id, required this.name, this.description, required this.price, this.category, this.isTopWeek, this.status, required this.imageUrl});
+   _MenuModel({required this.id, required this.name, this.description, @JsonKey(fromJson: _priceFromJson) required this.price, required this.category, this.isTopWeek, this.status, required this.imageUrl});
   factory _MenuModel.fromJson(Map<String, dynamic> json) => _$MenuModelFromJson(json);
 
 @override final  String id;
 @override final  String name;
 @override final  String? description;
-@override final  double price;
-@override final  String? category;
+@override@JsonKey(fromJson: _priceFromJson) final  double price;
+@override final  CategoryModel category;
 @override final  bool? isTopWeek;
 @override final  String? status;
 @override final  String imageUrl;
@@ -132,11 +141,11 @@ abstract mixin class _$MenuModelCopyWith<$Res> implements $MenuModelCopyWith<$Re
   factory _$MenuModelCopyWith(_MenuModel value, $Res Function(_MenuModel) _then) = __$MenuModelCopyWithImpl;
 @override @useResult
 $Res call({
- String id, String name, String? description, double price, String? category, bool? isTopWeek, String? status, String imageUrl
+ String id, String name, String? description,@JsonKey(fromJson: _priceFromJson) double price, CategoryModel category, bool? isTopWeek, String? status, String imageUrl
 });
 
 
-
+@override $CategoryModelCopyWith<$Res> get category;
 
 }
 /// @nodoc
@@ -149,21 +158,30 @@ class __$MenuModelCopyWithImpl<$Res>
 
 /// Create a copy of MenuModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? name = null,Object? description = freezed,Object? price = null,Object? category = freezed,Object? isTopWeek = freezed,Object? status = freezed,Object? imageUrl = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? name = null,Object? description = freezed,Object? price = null,Object? category = null,Object? isTopWeek = freezed,Object? status = freezed,Object? imageUrl = null,}) {
   return _then(_MenuModel(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,description: freezed == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
 as String?,price: null == price ? _self.price : price // ignore: cast_nullable_to_non_nullable
-as double,category: freezed == category ? _self.category : category // ignore: cast_nullable_to_non_nullable
-as String?,isTopWeek: freezed == isTopWeek ? _self.isTopWeek : isTopWeek // ignore: cast_nullable_to_non_nullable
+as double,category: null == category ? _self.category : category // ignore: cast_nullable_to_non_nullable
+as CategoryModel,isTopWeek: freezed == isTopWeek ? _self.isTopWeek : isTopWeek // ignore: cast_nullable_to_non_nullable
 as bool?,status: freezed == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
 as String?,imageUrl: null == imageUrl ? _self.imageUrl : imageUrl // ignore: cast_nullable_to_non_nullable
 as String,
   ));
 }
 
-
+/// Create a copy of MenuModel
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$CategoryModelCopyWith<$Res> get category {
+  
+  return $CategoryModelCopyWith<$Res>(_self.category, (value) {
+    return _then(_self.copyWith(category: value));
+  });
+}
 }
 
 // dart format on

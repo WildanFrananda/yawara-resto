@@ -19,7 +19,7 @@ PaginatedMenu _$PaginatedMenuFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$PaginatedMenuToJson(PaginatedMenu instance) =>
     <String, dynamic>{
-      'data': instance.data,
+      'data': instance.data.map((e) => e.toJson()).toList(),
       'total': instance.total,
       'page': instance.page,
       'limit': instance.limit,

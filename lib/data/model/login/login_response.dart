@@ -1,5 +1,4 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:mobile/data/model/user/user.dart';
 
 part 'login_response.freezed.dart';
 part 'login_response.g.dart';
@@ -7,11 +6,9 @@ part 'login_response.g.dart';
 @freezed
 abstract class LoginResponse with _$LoginResponse {
   const factory LoginResponse({
-    required final String accessToken,
-    required final String refreshToken,
-    required final String tokenType,
-    required final String expiresIn,
-    required final User? user,
+    required final String id,
+    required final String email,
+    @JsonKey(name: 'access_token') required final String accessToken,
   }) = _LoginResponse;
 
   factory LoginResponse.fromJson(final Map<String, dynamic> json) =>

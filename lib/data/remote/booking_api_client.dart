@@ -18,7 +18,7 @@ abstract interface class BookingApiClient {
   }
 
   @GET('/menus')
-  Future<List<MenuModel>> fetchMenus();
+  Future<MenuModel> fetchMenus();
 
   @POST('/booking')
   Future<BookingResponse> createBooking(@Body() final BookingRequest body);

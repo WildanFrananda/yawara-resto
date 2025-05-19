@@ -51,10 +51,7 @@ class MenuViewModel extends ChangeNotifier {
     notifyListeners();
 
     try {
-      final response = await _menuApiClient.fetchMenus(
-        page: _menuPage,
-        categoryId: selectedCategoryId,
-      );
+      final response = await _menuApiClient.fetchMenus(page: _menuPage);
       menus.addAll(response.data);
       hasMoreMenus = response.page * response.limit < response.total;
       _menuPage++;

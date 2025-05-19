@@ -3,7 +3,7 @@ import 'package:mobile/data/model/menu/menu_model.dart';
 
 part 'paginated_menu.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class PaginatedMenu {
   final List<MenuModel> data;
   final int total;

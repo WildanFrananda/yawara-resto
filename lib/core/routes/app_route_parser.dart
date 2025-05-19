@@ -8,7 +8,11 @@ class AppRouteParser extends RouteInformationParser<AppRoute> {
   Future<AppRoute> parseRouteInformation(final RouteInformation routeInformation) async {
     final uri = Uri.parse(routeInformation.uri.toString());
     if (uri.pathSegments.isEmpty) {
-      return const AppRouteLogin();
+      return AppRoute.splash();
+    }
+
+    if (uri.pathSegments[0] == 'splash') {
+      return AppRoute.splash();
     }
     if (uri.pathSegments[0] == 'login') {
       return const AppRouteLogin();
@@ -22,11 +26,14 @@ class AppRouteParser extends RouteInformationParser<AppRoute> {
     if (uri.pathSegments[0] == 'profile') {
       return const AppRouteProfile();
     }
-    return const AppRouteLogin();
+
+    return AppRoute.splash();
   }
 
   @override
   RouteInformation? restoreRouteInformation(final AppRoute configuration) {
+    if (configuration is AppRouteSplash)
+      return RouteInformation(uri: Uri.parse('/splash'));
     if (configuration is AppRouteLogin) return RouteInformation(uri: Uri.parse('/login'));
     if (configuration is AppRouteRegister) {
       return RouteInformation(uri: Uri.parse('/register'));
@@ -49,6 +56,6 @@ class AppRouteParser extends RouteInformationParser<AppRoute> {
     if (configuration is AppRouteReservation) {
       return RouteInformation(uri: Uri.parse('/reservation'));
     }
-    return RouteInformation(uri: Uri.parse('/login'));
+    return RouteInformation(uri: Uri.parse('/splash'));
   }
 }

@@ -5,10 +5,7 @@ part 'register_response.g.dart';
 
 @freezed
 abstract class RegisterResponse with _$RegisterResponse {
-  const factory RegisterResponse({
-    required final String message,
-    required final String token,
-  }) = _RegisterResponse;
+  const factory RegisterResponse({required final String message}) = _RegisterResponse;
 
   factory RegisterResponse.fromJson(final Map<String, dynamic> json) =>
       _$RegisterResponseFromJson(json);

@@ -23,7 +23,6 @@ abstract class MenuApiClient {
   Future<PaginatedMenu> fetchMenus({
     @Query('page') final int page = 1,
     @Query('limit') final int limit = 10,
-    @Query('categoryId') final String? categoryId,
   });
 
   @GET('/menus/{id}')

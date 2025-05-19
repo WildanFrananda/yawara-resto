@@ -16,7 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$RegisterResponse {
 
- String get message; String get token;
+ String get message;
 /// Create a copy of RegisterResponse
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -29,16 +29,16 @@ $RegisterResponseCopyWith<RegisterResponse> get copyWith => _$RegisterResponseCo
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is RegisterResponse&&(identical(other.message, message) || other.message == message)&&(identical(other.token, token) || other.token == token));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is RegisterResponse&&(identical(other.message, message) || other.message == message));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,message,token);
+int get hashCode => Object.hash(runtimeType,message);
 
 @override
 String toString() {
-  return 'RegisterResponse(message: $message, token: $token)';
+  return 'RegisterResponse(message: $message)';
 }
 
 
@@ -49,7 +49,7 @@ abstract mixin class $RegisterResponseCopyWith<$Res>  {
   factory $RegisterResponseCopyWith(RegisterResponse value, $Res Function(RegisterResponse) _then) = _$RegisterResponseCopyWithImpl;
 @useResult
 $Res call({
- String message, String token
+ String message
 });
 
 
@@ -66,10 +66,9 @@ class _$RegisterResponseCopyWithImpl<$Res>
 
 /// Create a copy of RegisterResponse
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? message = null,Object? token = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? message = null,}) {
   return _then(_self.copyWith(
 message: null == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
-as String,token: null == token ? _self.token : token // ignore: cast_nullable_to_non_nullable
 as String,
   ));
 }
@@ -81,11 +80,10 @@ as String,
 @JsonSerializable()
 
 class _RegisterResponse implements RegisterResponse {
-  const _RegisterResponse({required this.message, required this.token});
+  const _RegisterResponse({required this.message});
   factory _RegisterResponse.fromJson(Map<String, dynamic> json) => _$RegisterResponseFromJson(json);
 
 @override final  String message;
-@override final  String token;
 
 /// Create a copy of RegisterResponse
 /// with the given fields replaced by the non-null parameter values.
@@ -100,16 +98,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _RegisterResponse&&(identical(other.message, message) || other.message == message)&&(identical(other.token, token) || other.token == token));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _RegisterResponse&&(identical(other.message, message) || other.message == message));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,message,token);
+int get hashCode => Object.hash(runtimeType,message);
 
 @override
 String toString() {
-  return 'RegisterResponse(message: $message, token: $token)';
+  return 'RegisterResponse(message: $message)';
 }
 
 
@@ -120,7 +118,7 @@ abstract mixin class _$RegisterResponseCopyWith<$Res> implements $RegisterRespon
   factory _$RegisterResponseCopyWith(_RegisterResponse value, $Res Function(_RegisterResponse) _then) = __$RegisterResponseCopyWithImpl;
 @override @useResult
 $Res call({
- String message, String token
+ String message
 });
 
 
@@ -137,10 +135,9 @@ class __$RegisterResponseCopyWithImpl<$Res>
 
 /// Create a copy of RegisterResponse
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? message = null,Object? token = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? message = null,}) {
   return _then(_RegisterResponse(
 message: null == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
-as String,token: null == token ? _self.token : token // ignore: cast_nullable_to_non_nullable
 as String,
   ));
 }

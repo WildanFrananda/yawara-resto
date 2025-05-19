@@ -24,10 +24,10 @@ abstract interface class ApiClient {
   @POST('/auth/register')
   Future<HttpResponse<RegisterResponse>> register(@Body() final RegisterRequest request);
 
-  @POST('auth/login')
+  @POST('/auth/login')
   Future<HttpResponse<LoginResponse>> login(@Body() final LoginRequest request);
 
-  @POST('auth/refresh')
+  @POST('/auth/refresh')
   Future<HttpResponse<LoginResponse>> refresh(@Body() final Map<String, String> request);
 
   @GET('/user/profile')

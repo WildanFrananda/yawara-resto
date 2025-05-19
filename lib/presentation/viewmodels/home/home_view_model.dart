@@ -4,21 +4,30 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:hive_ce_flutter/hive_flutter.dart';
+import 'package:injectable/injectable.dart';
 import 'package:mobile/data/model/booking/booking_request.dart';
 import 'package:mobile/data/model/booking/booking_response.dart';
 import 'package:mobile/data/model/booking/menu_item_request.dart';
 import 'package:mobile/data/model/menu/menu_model.dart';
 import 'package:mobile/data/remote/booking_api_client.dart';
+import 'package:mobile/data/remote/menu/menu_api_client.dart';
 import 'package:mobile/presentation/viewmodels/offline/offline_view_model.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
+@injectable
 class HomeViewModel extends ChangeNotifier {
   final OfflineViewModel offlineViewModel;
   final BookingApiClient _bookingApiClient;
+  final MenuApiClient _menuApiClient;
   final Connectivity _connectivity;
-  final Box<dynamic> _menuBox = Hive.box('menus');
+  final Box<MenuModel> _menuBox = Hive.box('menus');
 
-  HomeViewModel(this._bookingApiClient, this._connectivity, this.offlineViewModel) {
+  HomeViewModel(
+    this._bookingApiClient,
+    this._connectivity,
+    this.offlineViewModel,
+    this._menuApiClient,
+  ) {
     _listenConnectivity();
     _connectWebSocket();
     fetchMenus();
@@ -33,7 +42,7 @@ class HomeViewModel extends ChangeNotifier {
   BookingResponse? lastBooking;
 
   bool online = true;
-  late StreamSubscription<ConnectivityResult> _connectivitySubscription;
+  late StreamSubscription<dynamic> _connectivitySubscription;
   WebSocketChannel? _walletChannel;
   StreamSubscription<dynamic>? wsSub;
   String paymentStatus = '';
@@ -51,16 +60,16 @@ class HomeViewModel extends ChangeNotifier {
     }
 
     try {
-      final apiMenus = await _bookingApiClient.fetchMenus();
-      menus = apiMenus;
+      final apiMenus = await _menuApiClient.fetchMenus();
+      menus = apiMenus.data;
 
       await _menuBox.clear();
 
-      for (var m in apiMenus) {
+      for (var m in apiMenus.data) {
         await _menuBox.put(m.id, m);
       }
     } catch (e) {
-      menuError = 'Failed to load menu!';
+      menuError = 'Failed to load menu! $e';
     } finally {
       loadingMenus = false;
       notifyListeners();
@@ -108,27 +117,37 @@ class HomeViewModel extends ChangeNotifier {
   }
 
   void _listenConnectivity() {
-    _connectivitySubscription =
-        _connectivity.onConnectivityChanged.listen((final result) {
-              online = result != ConnectivityResult.none;
-              notifyListeners();
-            })
-            as StreamSubscription<ConnectivityResult>;
+    _connectivitySubscription = _connectivity.onConnectivityChanged.listen((
+      final dynamic result,
+    ) {
+      if (result is List<ConnectivityResult>) {
+        online = result.any((final r) => r != ConnectivityResult.none);
+      } else if (result is ConnectivityResult) {
+        online = result != ConnectivityResult.none;
+      }
+      notifyListeners();
+    });
   }
 
   void _connectWebSocket() {
-    final wsUrl = dotenv.env['WS_URL'];
-
-    if (wsUrl != null) {
-      _walletChannel = WebSocketChannel.connect(Uri.parse(wsUrl));
-    } else {
+    final raw = dotenv.env['WS_URL'];
+    if (raw == null || raw.isEmpty) {
       throw Exception('WebSocket URL is not defined in the environment variables.');
     }
 
-    wsSub = _walletChannel!.stream.listen(
-      (final message) {
-        final data = message.toString();
+    // Ganti scheme http/https ke ws/wss jika perlu
+    final uri = Uri.parse(raw.replaceFirst(RegExp(r'^https?'), 'wss'));
 
+    try {
+      _walletChannel = WebSocketChannel.connect(uri);
+    } catch (e, st) {
+      debugPrint('❌ WebSocket connect failed: $e\n$st');
+      return; // Bypass jika gagal
+    }
+
+    wsSub = _walletChannel!.stream.listen(
+      (message) {
+        final data = message.toString();
         if (lastBooking != null && data.contains(lastBooking!.id)) {
           paymentStatus =
               data.contains('success')
@@ -139,11 +158,13 @@ class HomeViewModel extends ChangeNotifier {
           notifyListeners();
         }
       },
-      onError: (_) {
+      onError: (err, st) {
+        debugPrint('⚠️ WebSocket error: $err\n$st');
         paymentStatus = 'failed';
         notifyListeners();
       },
       onDone: () {
+        debugPrint('ℹ️ WebSocket connection closed');
         paymentStatus = 'failed';
         notifyListeners();
       },

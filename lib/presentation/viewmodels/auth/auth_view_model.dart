@@ -29,11 +29,6 @@ class AuthViewModel extends ChangeNotifier {
         key: 'accessToken',
         value: response.data.accessToken,
       );
-      await _secureStorage.saveSecure(
-        key: 'refreshToken',
-        value: response.data.refreshToken,
-      );
-      user = response.data.user;
     } on DioException catch (e) {
       throw FormatException((e.response?.data['message'] as String?) ?? 'Login failed');
     } finally {

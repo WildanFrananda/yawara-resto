@@ -6,7 +6,7 @@ import 'package:mobile/data/model/transaction/transaction.dart';
 part 'booking_response.freezed.dart';
 part 'booking_response.g.dart';
 
-@freezed
+@Freezed(toJson: true)
 abstract class BookingResponse with _$BookingResponse {
   factory BookingResponse({
     required final String id,

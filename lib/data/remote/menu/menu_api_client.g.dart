@@ -51,18 +51,9 @@ class _MenuApiClient implements MenuApiClient {
   }
 
   @override
-  Future<PaginatedMenu> fetchMenus({
-    int page = 1,
-    int limit = 10,
-    String? categoryId,
-  }) async {
+  Future<PaginatedMenu> fetchMenus({int page = 1, int limit = 10}) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{
-      r'page': page,
-      r'limit': limit,
-      r'categoryId': categoryId,
-    };
-    queryParameters.removeWhere((k, v) => v == null);
+    final queryParameters = <String, dynamic>{r'page': page, r'limit': limit};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<PaginatedMenu>(

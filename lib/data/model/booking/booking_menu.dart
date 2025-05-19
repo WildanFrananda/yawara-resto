@@ -4,7 +4,7 @@ import 'package:mobile/data/model/menu/menu_model.dart';
 part 'booking_menu.freezed.dart';
 part 'booking_menu.g.dart';
 
-@freezed
+@Freezed(toJson: true)
 abstract class BookingMenu with _$BookingMenu {
   factory BookingMenu({
     required final String id,

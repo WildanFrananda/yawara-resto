@@ -57,7 +57,7 @@ class _ApiClient implements ApiClient {
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            'auth/login',
+            '/auth/login',
             queryParameters: queryParameters,
             data: _data,
           )
@@ -88,7 +88,7 @@ class _ApiClient implements ApiClient {
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
-            'auth/refresh',
+            '/auth/refresh',
             queryParameters: queryParameters,
             data: _data,
           )

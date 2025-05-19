@@ -3,14 +3,19 @@ import 'package:mobile/data/model/category/category_model.dart';
 sealed class AppRoute {
   const AppRoute();
 
-  factory AppRoute.categories() = AppRouteCategory;
+  factory AppRoute.splash() = AppRouteSplash;
   factory AppRoute.login() = AppRouteLogin;
   factory AppRoute.register() = AppRouteRegister;
   factory AppRoute.profile() = AppRouteProfile;
   factory AppRoute.home() = AppRouteHome;
   factory AppRoute.reservation() = AppRouteReservation;
+  factory AppRoute.categories() = AppRouteCategory;
   factory AppRoute.menuList(final CategoryModel categoryId) = AppRouteMenuList;
   factory AppRoute.menuDetail(final String menuId) = AppRouteMenuDetail;
+}
+
+class AppRouteSplash extends AppRoute {
+  const AppRouteSplash();
 }
 
 class AppRouteLogin extends AppRoute {

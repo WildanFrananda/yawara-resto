@@ -3,11 +3,13 @@ import 'dart:async';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_ce_flutter/hive_flutter.dart';
+import 'package:injectable/injectable.dart';
 import 'package:mobile/data/model/booking/booking_request.dart';
 import 'package:mobile/data/model/booking/menu_item_request.dart';
 import 'package:mobile/data/model/order/order_draft.dart';
 import 'package:mobile/data/remote/booking_api_client.dart';
 
+@injectable
 class OfflineViewModel extends ChangeNotifier {
   final Box<OrderDraft> _draftBox = Hive.box('order_drafts');
   final BookingApiClient _api;
